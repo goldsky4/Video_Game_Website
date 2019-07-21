@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'bootstrap.css' %}">
+
+{% block head_title %}
+User
+{% endblock %}
+
+{% block content %}
+
+<style>
+p, h1, h3 ,table, form{
+<!--  margin-top: 100px;-->
+<!--  margin-bottom: 100px;-->
+  margin-right: 150px;
+  margin-left: 80px;
+}
+
+table {
+  border-collapse: collapse;
+    width: 20%;
+}
+
+td,th {
+  border-bottom: 1px solid #949494;
+    text-align: center;
+}
+
+td#name {
+    text-align: left;
+}
+
+tr:hover {background-color: #b6b6b6;}
+
+
+
+</style>
+
+<h1>Hello {{user.username}}</h1>
+
+
+<table>
+    <tr>
+        <th colspan="2">Name</th>
+        <th>Rating</th>
+    </tr>
+    {% for a in games %}
+        <tr>
+            <td> <img id={{a.id}} src='{% static "/gamecovers/1.jpg" %}'
+            alt="Fail" height="42" width="42"></td>
+            <td id="name">{{a.name}}</td>
+            <td>{{a.rating}}</td>
+
+            <script>
+                var url1 = '/static/gamecovers/';
+                var url2 = {{a.id}};
+                var url3 = '.jpg';
+                var url = url1 + url2 + url3;
+                document.getElementById({{a.id}}).src = url;
+            </script>
+        </tr>
+    {% endfor %}
+</table>
+<br><br><br>
+
+<h3>Add a new game</h3>
+
+<form method="post">
+    {% csrf_token %}
+    {{ gameform.as_p }}
+    <input type="submit" name="action" value="Game">
+</form>
+
+<br><br><br><br>
+
+<form action="logout/">
+  <input type="submit" value="Logout">
+</form>
+
+{% endblock %}
